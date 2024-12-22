@@ -8,11 +8,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Component;
 
 import com.frog.kbo_community.domain.member.constant.PermissionEnum;
 
 import jakarta.annotation.Nullable;
 
+@Component
 public class RequestMatcherHolder {
 
 	private static final List<RequestInfo> REQUEST_INFO_LIST = List.of(
@@ -25,7 +27,7 @@ public class RequestMatcherHolder {
 	 * if role == null, return permitAll Path
 	 */
 	public RequestMatcher getRequestMatchersByMinPermission(@Nullable PermissionEnum minPermission) {
-		var key = getKeyByRole(minPermission);
+		var key = getKeyByPermission(minPermission);
 		if (!reqMatcherCacheMap.containsKey(key)) {
 			var requestMatcherByMinRole = new OrRequestMatcher(REQUEST_INFO_LIST.stream()
 				.filter(reqInfo -> Objects.equals(reqInfo.minPermission(), minPermission))
@@ -36,7 +38,7 @@ public class RequestMatcherHolder {
 		return reqMatcherCacheMap.get(key);
 	}
 
-	private String getKeyByRole(@Nullable PermissionEnum minPermission) {
+	private String getKeyByPermission(@Nullable PermissionEnum minPermission) {
 		if (minPermission == null) {
 			return "VISITOR";
 		}

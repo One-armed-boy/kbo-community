@@ -39,10 +39,11 @@ public class SecurityConfig {
 				req
 					.requestMatchers(requestMatcherHolder.getRequestMatchersByMinPermission(null))
 					.permitAll()
-					.requestMatchers(requestMatcherHolder.getRequestMatchersByMinPermission(ADMIN))
-					.hasAnyAuthority(ADMIN.name())
-					.requestMatchers(requestMatcherHolder.getRequestMatchersByMinPermission(NORMAL))
-					.hasAnyAuthority(ADMIN.name(), NORMAL.name())
+					// 아직 관련 권한의 EP가 존재하지 않기 때문에 에러를 피하기 위한 주석 처리
+					// .requestMatchers(requestMatcherHolder.getRequestMatchersByMinPermission(ADMIN))
+					// .hasAnyAuthority(ADMIN.name())
+					// .requestMatchers(requestMatcherHolder.getRequestMatchersByMinPermission(NORMAL))
+					// .hasAnyAuthority(ADMIN.name(), NORMAL.name())
 					.anyRequest().authenticated()
 			);
 

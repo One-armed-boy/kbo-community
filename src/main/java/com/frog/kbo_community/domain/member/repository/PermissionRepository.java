@@ -11,5 +11,5 @@ import com.frog.kbo_community.domain.member.constant.PermissionEnum;
 
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, UUID> {
-	Optional<Permission> findByPermissionEnum(PermissionEnum permissionEnum);
+	Optional<Permission> findByName(PermissionEnum permissionEnum);
 }
