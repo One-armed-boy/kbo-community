@@ -44,7 +44,7 @@ public class JwtService {
 	public AccessTokenPayload createAccessTokenPayload(Claims payload) {
 		String permissionString = payload.get("permission", String.class);
 		PermissionEnum permissionEnum = PermissionEnum.valueOf(permissionString);
-		String deviceId = payload.get("deviceId", String.class)
+		String deviceId = payload.get("deviceId", String.class);
 
 		return new AccessTokenPayload(
 			UUID.fromString(payload.getSubject()),
