@@ -1,11 +1,11 @@
-package com.frog.kbo_community.domain.meber;
+package com.frog.kbo_community.domain.member;
 
 import java.util.UUID;
 
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.uuid.UuidValueGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.frog.kbo_community.domain.member.constant.PermissionEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,17 +22,17 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Role {
+public class Permission {
 	@Id
 	@UuidGenerator
-	@Column(name="role_id", nullable = false, updatable = false)
+	@Column(name="permission_id", nullable = false, updatable = false)
 	private UUID id;
 
 	@Column(name = "name", nullable = false, updatable = false)
-	private String name;
+	private PermissionEnum name;
 
 	@Builder
-	public Role(String name) {
+	public Permission(PermissionEnum name) {
 		this.name = name;
 	}
 }

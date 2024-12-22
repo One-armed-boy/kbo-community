@@ -1,10 +1,13 @@
-package com.frog.kbo_community.domain.meber;
+package com.frog.kbo_community.domain.auth;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.frog.kbo_community.domain.member.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -25,18 +28,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "members")
+@Table(name = "auth_infos")
+@SQLDelete(sql = "UPDATE auth_infos SET deleted_at = NOW() WHERE member_id = ? AND device_id = ?")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class AuthInfo {
 	@Id
-	@Column(name = "member_id", nullable = false, updatable = false)
+	@Column(name="auth_info_id", updatable = false, nullable = false)
 	private UUID id;
 
-	@Setter
-	@Column(name = "email", nullable = false)
-	private String email;
+	@Column(name = "device_id", updatable = false, nullable = false)
+	private UUID deviceId;
+
+	@Column(name = "refresh_token", nullable = false)
+	private String refreshToken;
 
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
@@ -44,13 +50,23 @@ public class Member {
 	private LocalDateTime createdAt;
 
 	@Setter
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "expired_at", nullable = false)
+	private LocalDateTime expiredAt;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="role_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-	private Role role;
+	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+	private Member member;
 
 	@Builder
-	public Member(String email, Role role) {
-		this.email = email;
-		this.role = role;
+	public AuthInfo(UUID deviceId, String refreshToken, LocalDateTime expiredAt, Member member) {
+		this.deviceId = deviceId;
+		this.refreshToken = refreshToken;
+		this.expiredAt = expiredAt;
+		this.member = member;
 	}
 }
