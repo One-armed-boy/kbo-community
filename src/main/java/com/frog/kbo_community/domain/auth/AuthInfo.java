@@ -69,4 +69,8 @@ public class AuthInfo {
 		this.expiredAt = expiredAt;
 		this.member = member;
 	}
+
+	public static UUID createDeviceId() {
+		return UUID.randomUUID();
+	}
 }

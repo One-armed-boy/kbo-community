@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.frog.kbo_community.domain.member.Member;
 import com.frog.kbo_community.domain.member.Permission;
+import com.frog.kbo_community.domain.member.exception.MemberNotFoundException;
 import com.frog.kbo_community.domain.member.repository.MemberRepository;
 
 @Service
@@ -24,6 +25,10 @@ public class MemberService {
 
 	public Optional<Member> findByEmail(String email) {
 		return this.memberRepo.findByEmail(email);
+	}
+
+	public Member getByEmail(String email) {
+		return this.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 	}
 
 	@Transactional

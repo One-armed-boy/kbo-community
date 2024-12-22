@@ -19,7 +19,10 @@ public class RequestMatcherHolder {
 
 	private static final List<RequestInfo> REQUEST_INFO_LIST = List.of(
 		// member
-		new RequestInfo(HttpMethod.POST, "/members", null)
+		new RequestInfo(HttpMethod.POST, "/members", null),
+
+		// auth
+		new RequestInfo(HttpMethod.POST, "/auth/login", null)
 	);
 	private final ConcurrentHashMap<String, RequestMatcher> reqMatcherCacheMap = new ConcurrentHashMap<>();
 

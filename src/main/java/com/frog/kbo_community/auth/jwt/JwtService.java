@@ -55,7 +55,8 @@ public class JwtService {
 	}
 
 	public RefreshTokenPayload createRefreshTokenPayload(Claims payload) {
-		return new RefreshTokenPayload(payload.getSubject(), payload.getIssuedAt());
+		var deviceId = payload.get("deviceId", String.class);
+		return new RefreshTokenPayload(UUID.fromString(payload.getSubject()), UUID.fromString(deviceId), payload.getIssuedAt());
 	}
 
 	public String createAccessToken(AccessTokenPayload jwtPayload) {
@@ -72,7 +73,8 @@ public class JwtService {
 
 	public String createRefreshToken(RefreshTokenPayload jwtPayload) {
 		return Jwts.builder()
-			.subject(jwtPayload.authInfoId())
+			.subject(jwtPayload.memberId().toString())
+			.claim("deviceId", jwtPayload.deviceId().toString())
 			.issuer(issuer)
 			.issuedAt(jwtPayload.issuedAt())
 			.expiration(new Date(jwtPayload.issuedAt().getTime() + refreshKeyExpirationInMs))
