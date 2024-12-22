@@ -39,7 +39,7 @@ public class Member {
 	private String email;
 
 	@Setter
-	@Column(name = "decryted_password")
+	@Column(name = "decrypted_password")
 	private String decryptedPassword;
 
 	@CreatedDate
@@ -49,7 +49,7 @@ public class Member {
 
 	@Setter
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="role_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name="permission_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
 	private Permission permission;
 
 	@Builder
