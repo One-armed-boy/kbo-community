@@ -10,6 +10,8 @@ import com.frog.kbo_community.domain.member.constant.PermissionEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -28,6 +30,7 @@ public class Permission {
 	@Column(name="permission_id", nullable = false, updatable = false)
 	private UUID id;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "name", nullable = false, updatable = false)
 	private PermissionEnum name;
 

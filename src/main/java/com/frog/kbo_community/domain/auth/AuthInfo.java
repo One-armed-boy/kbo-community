@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -37,6 +38,7 @@ import lombok.Setter;
 @Getter
 public class AuthInfo {
 	@Id
+	@UuidGenerator
 	@Column(name="auth_info_id", updatable = false, nullable = false)
 	private UUID id;
 
