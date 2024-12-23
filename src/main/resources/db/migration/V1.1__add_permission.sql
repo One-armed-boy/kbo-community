@@ -1,4 +1,3 @@
-INSERT INTO permissions (permission_id, name) VALUES (
-    (UUID_TO_BIN(uuid()), 'ADMIN'),
-    (UUID_TO_BIN(uuid()), 'NORMAL')
-);
+INSERT INTO permissions (permission_id, name) VALUES
+    (CAST(RANDOM_UUID() AS BINARY(16)), 'ADMIN'),
+    (CAST(RANDOM_UUID() AS BINARY(16)), 'NORMAL');
