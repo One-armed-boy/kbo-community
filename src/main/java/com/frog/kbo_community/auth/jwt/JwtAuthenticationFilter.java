@@ -13,13 +13,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.frog.kbo_community.auth.FilterExceptionResolver;
 import com.frog.kbo_community.auth.RequestMatcherHolder;
-import com.frog.kbo_community.auth.constant.JwtMetadata;
+import com.frog.kbo_community.domain.auth.exception.InvalidTokenException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		try {
-			final String accessToken = getAccessTokenFromCookie(request);
+			final String accessToken = getAccessTokenFromAuthHeader(request);
 			Claims claims = jwtService.verifyToken(accessToken);
 			AccessTokenPayload accessTokenPayload = jwtService.createAccessTokenPayload(claims);
 
@@ -54,21 +53,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			logger.info("Failed to authorize/authenticate with JWT due to " + ex.getMessage());
 			jwtFilterExceptionResolver.setResponse(response, ex);
 		}
-
 	}
 
-	private String getAccessTokenFromCookie(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies == null) {
-			throw new JwtException("Missing cookie");
+	private String getAccessTokenFromAuthHeader(HttpServletRequest request) {
+		var authHeader = request.getHeader("Authorization");
+		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+			throw new InvalidTokenException();
 		}
 
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(JwtMetadata.ACCESS_TOKEN.name())) {
-				return cookie.getValue();
-			}
-		}
-		throw new JwtException("Missing Token");
+		return authHeader.substring(7);
 	}
 
 	@Override

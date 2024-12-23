@@ -28,7 +28,7 @@ public class MemberController {
 
 	@PostMapping
 	public ResponseEntity registerNormalMember(@Valid @RequestBody final RegisterMemberRequest request) {
-		this.registerNormalMemberUsecase.execute(
+		registerNormalMemberUsecase.execute(
 			RegisterMemberCommand.builder()
 				.email(request.getEmail()).password(request.getPassword()).build()
 		);

@@ -20,7 +20,7 @@ public class PermissionService {
 	}
 
 	public Permission getByPermissionEnum(PermissionEnum permissionEnum) {
-		return this.permissionRepo.findByName(permissionEnum)
+		return permissionRepo.findByName(permissionEnum)
 			.orElseThrow(PermissionNotFoundException::new);
 	}
 }

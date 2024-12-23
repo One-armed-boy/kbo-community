@@ -22,7 +22,8 @@ public class RequestMatcherHolder {
 		new RequestInfo(HttpMethod.POST, "/members", null),
 
 		// auth
-		new RequestInfo(HttpMethod.POST, "/auth/login", null)
+		new RequestInfo(HttpMethod.POST, "/auth/login", null),
+		new RequestInfo(HttpMethod.POST, "/auth/new-access-token", null)
 	);
 	private final ConcurrentHashMap<String, RequestMatcher> reqMatcherCacheMap = new ConcurrentHashMap<>();
 

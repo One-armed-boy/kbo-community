@@ -56,7 +56,11 @@ public class JwtService {
 
 	public RefreshTokenPayload createRefreshTokenPayload(Claims payload) {
 		var deviceId = payload.get("deviceId", String.class);
-		return new RefreshTokenPayload(UUID.fromString(payload.getSubject()), UUID.fromString(deviceId), payload.getIssuedAt());
+		return new RefreshTokenPayload(
+			UUID.fromString(payload.getSubject()),
+			UUID.fromString(deviceId),
+			payload.getIssuedAt()
+		);
 	}
 
 	public String createAccessToken(AccessTokenPayload jwtPayload) {

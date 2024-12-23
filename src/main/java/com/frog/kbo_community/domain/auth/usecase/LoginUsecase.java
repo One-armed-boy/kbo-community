@@ -51,16 +51,16 @@ public class LoginUsecase {
 		var password = command.getPassword();
 		var cmdCreatedAt = command.getCmdCreatedAt();
 
-		var member = this.memberService.getByEmail(email);
+		var member = memberService.getByEmail(email);
 
-		if (!this.passwordEncoder.matches(password, member.getDecryptedPassword())) {
+		if (!passwordEncoder.matches(password, member.getDecryptedPassword())) {
 			throw new InvalidLoginRequestException();
 		}
 
 		var deviceId = AuthInfo.createDeviceId();
 		var issuedAt = Date.from(cmdCreatedAt.atZone(ZoneId.systemDefault()).toInstant());
 
-		var accessToken = this.jwtService.createAccessToken(
+		var accessToken = jwtService.createAccessToken(
 			new AccessTokenPayload(
 				member.getId(),
 				deviceId,
@@ -69,7 +69,7 @@ public class LoginUsecase {
 			)
 		);
 
-		var refreshToken = this.jwtService.createRefreshToken(
+		var refreshToken = jwtService.createRefreshToken(
 			new RefreshTokenPayload(
 				member.getId(),
 				deviceId,
@@ -79,8 +79,8 @@ public class LoginUsecase {
 
 		var expiredAt = new Date(issuedAt.getTime() + refreshKeyExpirationInMs);
 
-		this.authInfoService.createAuthInfo(
-			member,
+		authInfoService.createAuthInfo(
+			member.getId(),
 			refreshToken,
 			expiredAt.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
 		);

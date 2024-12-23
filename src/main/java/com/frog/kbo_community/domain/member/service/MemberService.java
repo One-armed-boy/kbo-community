@@ -1,6 +1,7 @@
 package com.frog.kbo_community.domain.member.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.management.relation.Role;
 
@@ -23,23 +24,26 @@ public class MemberService {
 		this.memberRepo = memberRepo;
 	}
 
+	public Member getById(UUID memberId) {
+		return memberRepo.findById(memberId).orElseThrow(MemberNotFoundException::new);
+	}
+
 	public Optional<Member> findByEmail(String email) {
-		return this.memberRepo.findByEmail(email);
+		return memberRepo.findByEmail(email);
 	}
 
 	public Member getByEmail(String email) {
-		return this.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+		return findByEmail(email).orElseThrow(MemberNotFoundException::new);
 	}
 
 	@Transactional
 	public Member createMember(String email, String decryptedPasword, Permission permission) {
-		var member = this.memberRepo.save(
+		return memberRepo.save(
 			Member.builder()
 				.email(email)
 				.decryptedPassword(decryptedPasword)
 				.permission(permission)
 				.build()
 		);
-		return member;
 	}
 }

@@ -33,14 +33,14 @@ public class RegisterNormalMemberUsecase {
 		var email = command.getEmail();
 		var password = command.getPassword();
 
-		var memberFindByEmail = this.memberSrv.findByEmail(email);
+		var memberFindByEmail = memberSrv.findByEmail(email);
 
 		if (memberFindByEmail.isPresent()) {
 			throw new DuplicatedEmailException();
 		}
 
-		var permission = this.permissionSrv.getByPermissionEnum(PermissionEnum.NORMAL);
+		var permission = permissionSrv.getByPermissionEnum(PermissionEnum.NORMAL);
 
-		this.memberSrv.createMember(email, passwordEncoder.encode(password), permission);
+		memberSrv.createMember(email, passwordEncoder.encode(password), permission);
 	}
 }
