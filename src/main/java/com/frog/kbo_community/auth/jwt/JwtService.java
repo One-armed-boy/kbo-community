@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ public class JwtService {
 	@Value("#{${jwt.refresh-key-expiration-s} * 1000}")
 	private long refreshKeyExpirationInMs;
 
+	@Autowired
 	public JwtService(@Value("${jwt.secret-key}") String secretKey) {
 		this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
 	}

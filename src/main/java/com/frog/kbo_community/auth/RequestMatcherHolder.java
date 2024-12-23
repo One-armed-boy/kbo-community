@@ -1,5 +1,7 @@
 package com.frog.kbo_community.auth;
 
+import static org.springframework.http.HttpMethod.*;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +25,12 @@ public class RequestMatcherHolder {
 
 		// auth
 		new RequestInfo(HttpMethod.POST, "/auth/login", null),
-		new RequestInfo(HttpMethod.POST, "/auth/new-access-token", null)
+		new RequestInfo(HttpMethod.POST, "/auth/new-access-token", null),
+
+		// swagger
+		new RequestInfo(GET, "/v3/api-docs/**", null),
+		new RequestInfo(GET, "/swagger-ui.html", null),
+		new RequestInfo(GET, "/swagger-ui/**", null)
 	);
 	private final ConcurrentHashMap<String, RequestMatcher> reqMatcherCacheMap = new ConcurrentHashMap<>();
 

@@ -1,6 +1,10 @@
 # KBO 커뮤니티 (가칭)
 
-## 1. 컨벤션
+## 1. 실행
+### 로컬
+- `./gradlew bootrun`
+
+## 2. 컨벤션
 ### 커밋
 - feat: 기능 추가, 개발
 - test: 테스트 코드 작성
@@ -14,3 +18,8 @@
 - 유즈케이스 레이어 (Usecase)
 - 서비스 레이어 (Service)
 - 레포지토리 레이어 (Repository)
+
+## 3. API 정보
+### OpenAPI (Swagger)
+- 경로
+  - `/api/swagger-ui/index.html`
