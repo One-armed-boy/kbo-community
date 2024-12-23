@@ -1,11 +1,14 @@
-package com.frog.kbo_community.domain.meber;
+package com.frog.kbo_community.domain.auth;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.frog.kbo_community.domain.member.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -30,6 +33,7 @@ import lombok.Setter;
 @SQLDelete(sql = "UPDATE auth_infos SET deleted_at = NOW() WHERE member_id = ? AND device_id = ?")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("deleted_at is null")
 @Getter
 public class AuthInfo {
 	@Id
@@ -66,5 +70,9 @@ public class AuthInfo {
 		this.refreshToken = refreshToken;
 		this.expiredAt = expiredAt;
 		this.member = member;
+	}
+
+	public static UUID createDeviceId() {
+		return UUID.randomUUID();
 	}
 }

@@ -1,4 +1,4 @@
-package com.frog.kbo_community.domain.meber;
+package com.frog.kbo_community.domain.member;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -38,6 +38,10 @@ public class Member {
 	@Column(name = "email", nullable = false)
 	private String email;
 
+	@Setter
+	@Column(name = "decrypted_password")
+	private String decryptedPassword;
+
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at", nullable = false)
@@ -45,12 +49,13 @@ public class Member {
 
 	@Setter
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="role_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-	private Role role;
+	@JoinColumn(name="permission_id", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+	private Permission permission;
 
 	@Builder
-	public Member(String email, Role role) {
+	public Member(String email, String decryptedPassword, Permission permission) {
 		this.email = email;
-		this.role = role;
+		this.decryptedPassword = decryptedPassword;
+		this.permission = permission;
 	}
 }
