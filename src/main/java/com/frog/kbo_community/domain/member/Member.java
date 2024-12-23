@@ -3,6 +3,7 @@ package com.frog.kbo_community.domain.member;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -31,6 +32,7 @@ import lombok.Setter;
 @Getter
 public class Member {
 	@Id
+	@UuidGenerator
 	@Column(name = "member_id", nullable = false, updatable = false)
 	private UUID id;
 
